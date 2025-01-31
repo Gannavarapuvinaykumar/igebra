@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General body styles */
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            animation: bodyBackgroundColor 10s infinite alternate;
+        }
+
+        /* Container for dashboard content */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-top: 50px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Welcome section styling */
+        .welcome {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        /* Heading styling with color animation */
+        .welcome h2 {
+            font-size: 30px;
+            color: #333;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInText 1.2s ease-out forwards, textColorChange 4s infinite alternate;
+        }
+
+        /* Paragraph styling with color animation */
+        .welcome p {
+            color: #777;
+            opacity: 0;
+            animation: fadeInText 1.4s ease-out forwards;
+            animation-delay: 0.4s;
+            animation: textColorChange 6s infinite alternate;
+        }
+
+        /* Button styling with color animation */
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            margin-right: 10px;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            animation: buttonColorChange 5s infinite alternate;
+        }
+
+        /* Hover effect for buttons */
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: scale(1.05);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animation for fading in content */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slide-up effect for the welcome section */
+        @keyframes slideUp {
+            0% {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Fade-in effect for text content */
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Background color animation for the body */
+        @keyframes bodyBackgroundColor {
+            0% {
+                background-color: #f0f0f0;
+            }
+            50% {
+                background-color: #e3f2fd;
+            }
+            100% {
+                background-color: #f0f0f0;
+            }
+        }
+
+        /* Text color change animation for heading and paragraph */
+        @keyframes textColorChange {
+            0% {
+                color: #333;
+            }
+            50% {
+                color: #FF5722;
+            }
+            100% {
+                color: #333;
+            }
+        }
+
+        /* Button color change animation */
+        @keyframes buttonColorChange {
+            0% {
+                background-color: #007bff;
+            }
+            50% {
+                background-color: #FF5722;
+            }
+            100% {
+                background-color: #007bff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome">
+            <h2>Welcome, {{ user.username }}!</h2>
+            <p>Email: {{ user.email }}</p>
+            {% if user.date_joined %}
+                <p>Date Joined: {{ user.date_joined.strftime('%Y-%m-%d') }}</p>
+            {% else %}
+                <p>Date Joined: Not available</p>
+            {% endif %}
+            
+            <a href="http://127.0.0.1:5000/logout" class="btn btn-primary">Logout</a>
+            <a href="{{ url_for('app1') }}" class="btn btn-primary">Home Page</a>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for additional animations
+
+        // Function to add a ripple effect to buttons
+        function addRippleEffect(button) {
+            button.addEventListener('click', function (e) {
+                let ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = `${e.offsetX}px`;
+                ripple.style.top = `${e.offsetY}px`;
+                this.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+            });
+        }
+
+        // Apply ripple effect to all buttons with class 'btn-primary'
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            addRippleEffect(button);
+        });
+
+        // Function to animate the welcome message on load
+        function animateWelcomeMessage() {
+            const welcomeHeading = document.querySelector('.welcome h2');
+            const welcomeParagraphs = document.querySelectorAll('.welcome p');
+
+            welcomeHeading.style.opacity = '1';
+            welcomeParagraphs.forEach((p, index) => {
+                setTimeout(() => {
+                    p.style.opacity = '1';
+                }, 400 * (index + 1));
+            });
+        }
+
+        // Call the animation function on page load
+        window.onload = animateWelcomeMessage;
+
+        // Function to add a hover effect to the container
+        const container = document.querySelector('.container');
+        container.addEventListener('mouseenter', () => {
+            container.style.transform = 'scale(1.02)';
+            container.style.transition = 'transform 0.3s ease';
+        });
+
+        container.addEventListener('mouseleave', () => {
+            container.style.transform = 'scale(1)';
+        });
+    </script>
+</body>
+</html>

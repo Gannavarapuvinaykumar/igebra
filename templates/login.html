@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI-Powered Education Platform</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login-styles.css') }}">
+    <style>
+        /* Reset default margin and padding for all elements */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Background and centering the login form */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6e7fd2, #b3c7e6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            animation: backgroundAnimation 15s infinite alternate;
+        }
+
+        /* Smooth animation for the background */
+        @keyframes backgroundAnimation {
+            0% {
+                background: linear-gradient(135deg, #6e7fd2, #b3c7e6);
+            }
+            100% {
+                background: linear-gradient(135deg, #5f6cc1, #a1b2e6);
+            }
+        }
+
+        /* Main login box styling */
+        #login {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        /* Animation for login form */
+        @keyframes slideUp {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Header text styling */
+        #login h2 {
+            text-align: center;
+            color: #4e4e4e;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        /* Animation for header text */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Styling for the form */
+        #login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Label styling */
+        #login-form label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Input field styling */
+        #login-form input[type="email"],
+        #login-form input[type="text"],
+        #login-form input[type="password"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        /* Focus effect on input fields */
+        #login-form input[type="email"]:focus,
+        #login-form input[type="text"]:focus,
+        #login-form input[type="password"]:focus {
+            border-color: #5c6bc0;
+            box-shadow: 0 0 8px rgba(92, 107, 192, 0.7);
+        }
+
+        /* Submit button styling */
+        #login-form input[type="submit"] {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #5C6BC0;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        /* Hover effect for submit button */
+        #login-form input[type="submit"]:hover {
+            background-color: #7986CB;
+            transform: scale(1.05);
+        }
+
+        /* Link for sign-up */
+        #login .signup-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #5C6BC0;
+        }
+
+        /* Hover effect for sign-up link */
+        #login .signup-link a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        #login .signup-link a:hover {
+            color: #3f51b5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Optional: You can include a navigation bar or a back button here -->
+    </header>
+
+    <main>
+        <section id="login">
+            <h2>Login</h2>
+            <form id="login-form" action="/login" method="post">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <input type="submit" value="Log In">
+            </form>
+            <div class="signup-link">
+                <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
