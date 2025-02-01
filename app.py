@@ -62,58 +62,55 @@ def quiz_interface():
     return render_template("home.html")
 
 
+
+
+
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
-    if request.method == "POST":
-        # Get quiz parameters from form
+    if (request.method == "POST"):
+        print(request.form)
         language = request.form["language"]
-        questions = int(request.form["ques"])  # Number of questions
-        choices = int(request.form["choices"])  # Number of choices
+        questions = request.form["ques"]
+        choices = request.form["choices"]
+        #difficulty = request.form["diff"]
 
-        # Request quiz data from OpenAI API
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
                 {
                     "role": "system",
-                    "content": f"Hey ChatGPT, prepare a quick quiz on the programming language: {language}. "
-                               f"Generate {questions} questions, each with {choices} choices. "
-                               f"Return a JSON object with topic, questions array (question, choices, answer)."
+                    "content": f"Hey chat gpt prepare a quick quiz on this programming language: {language} and prepare {questions} number of questions and for each of them keep {choices} number of choices, reply in the form of an object, make sure the response object contains topic, questions array containing question, choices and it's answer,print them in json format"
                 }
-            ],
+            ],  
             temperature=0.7,
         )
-
+        print(response['choices'][0]['message']['content'])
         quiz_content = response['choices'][0]['message']['content']
+        #print(quiz_content)
+        
 
-        try:
-            quiz_content = json.loads(quiz_content)  # Convert content string to JSON
-        except json.JSONDecodeError:
-            return "Error decoding response from OpenAI."
-
-        # Store the quiz data in the session to be accessed later
+        # Convert the content string to a dictionary
+        quiz_content = json.loads(quiz_content)
+        
+        # In your code, session is likely a Flask session object.
+        # Flask provides a session object as a dictionary that you can use to store values that are "remembered" between requests.In this example, session['key'] = 'value' stores a value in the session that can be accessed in subsequent requests.
+        # In your code, session['response'] = response is storing the response dictionary in the session so it can be accessed later, perhaps in a different route or request.
         session['response'] = quiz_content
+        # app.secret_key = os.environ.get("SECRET_KEY")
 
         return render_template("quiz.html", quiz_content=quiz_content)
-
-    elif request.method == "GET":
-        # Calculate the score when the form is submitted
+    
+    if request.method == "GET":
         score = 0
         actual_answers = []
         given_answers = list(request.args.values()) or []
-
         res = session.get('response', None)
-        if not res:
-            return "No quiz found in session."
-
         for answer in res["questions"]:
             actual_answers.append(answer["answer"])
-
-        if len(given_answers) != 0:
+        if (len(given_answers)!= 0):
             for i in range(len(actual_answers)):
                 if actual_answers[i] == given_answers[i]:
-                    score += 1
-
+                    score=score+1
         return render_template("score.html", actual_answers=actual_answers, given_answers=given_answers, score=score)
 
 
